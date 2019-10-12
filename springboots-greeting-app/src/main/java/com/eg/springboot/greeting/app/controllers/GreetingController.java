@@ -21,7 +21,7 @@ public class GreetingController {
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(value = "account", required = false) String account,
 			@RequestParam(value = "type", required = false) String type,
-			@RequestParam(value = "userId", defaultValue = "0", required = false) String userId, Model model) {
+			@RequestParam(value = "userId", defaultValue = "0", required = false) String userId) {
 		String returnMessage = "";
 		int id = 0;
 		try {
