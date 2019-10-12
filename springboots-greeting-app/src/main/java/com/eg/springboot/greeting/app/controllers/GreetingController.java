@@ -28,7 +28,7 @@ public class GreetingController {
 			id = Integer.parseInt(userId);
 			returnMessage = greetingInstance.getGreeting(new Greeting(account, type, id));
 		} catch (NumberFormatException e) {
-			returnMessage = e.getMessage();
+			returnMessage = "Only numbers are allowed in the userId attribute.";
 		}
 		return returnMessage;
 	}

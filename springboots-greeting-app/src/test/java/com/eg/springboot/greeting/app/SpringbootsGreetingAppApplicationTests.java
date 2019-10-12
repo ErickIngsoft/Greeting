@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.UnsupportedEncodingException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.eg.springboot.greeting.app.controllers.GreetingController;
 
@@ -24,34 +19,65 @@ import com.eg.springboot.greeting.app.controllers.GreetingController;
 @SpringBootTest
 public class SpringbootsGreetingAppApplicationTests {
 
-
-
 	@Autowired
 	private GreetingController controllerInstance;
 
 	@Test
-	public void getGreetingForBigBusiness() throws Exception {
+	public void getGreetingForBigBusiness() {
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerInstance).build();
-		  String response = mockMvc.perform(get("/greeting?account=business&type=big")).andExpect(status().isOk())
-		  .andReturn().getResponse().getContentAsString();
-		  assertEquals("Welcome, business user!", response);
+		  String response = "";
+		try {
+			response = mockMvc.perform(get("/greeting?account=business&type=big")).andExpect(status().isOk())
+			  .andReturn().getResponse().getContentAsString();
+			  assertEquals("Welcome, business user!", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	
 	@Test
-	public void getGreetingForSmallBusiness() throws UnsupportedEncodingException, Exception {
+	public void getGreetingForSmallBusiness(){
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerInstance).build();
-		  String response = mockMvc.perform(get("/greeting?account=business&type=small")).andExpect(status().isOk())
-		  .andReturn().getResponse().getContentAsString();
-		  assertEquals("The path is not yet implemented.", response);
+		  String response = "";
+		try {
+			response = mockMvc.perform(get("/greeting?account=business&type=small")).andExpect(status().isOk())
+			  .andReturn().getResponse().getContentAsString();
+			  assertEquals("The path is not yet implemented.", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Test
-	public void getGreetingForPersonal() throws UnsupportedEncodingException, Exception {
+	public void getGreetingForPersonal(){
 		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerInstance).build();
-		  String response = mockMvc.perform(get("/greeting?account=personal&userId=123")).andExpect(status().isOk())
-		  .andReturn().getResponse().getContentAsString();
-		  String userId =  mockMvc.perform(get("/greeting?account=personal&userId=123")).andReturn().getRequest().getParameter("userId"); 
-		  assertEquals("Hi, userId: "+userId, response);
+		  String response = "";
+		  String userId = "";
+		try {
+			response = mockMvc.perform(get("/greeting?account=personal&userId=123")).andExpect(status().isOk())
+			  .andReturn().getResponse().getContentAsString();
+			 userId =  mockMvc.perform(get("/greeting?account=personal&userId=123")).andReturn().getRequest().getParameter("userId"); 
+			 assertEquals("Hi, userId: "+userId, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 
 	}
+	
+	@Test
+	public void catchGreetingException(){
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controllerInstance).build();
+		  String response = "";
+		try {
+			response = mockMvc.perform(get("/greeting?account=personal&userId=asd")).andExpect(status().isOk())
+			  .andReturn().getResponse().getContentAsString();
+			  assertEquals("Only numbers are allowed in the userId attribute.", response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 }
