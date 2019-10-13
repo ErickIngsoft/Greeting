@@ -73,7 +73,7 @@ public class SpringbootsGreetingAppApplicationTests {
 		try {
 			response = mockMvc.perform(get("/greeting?account=personal&userId=asd")).andExpect(status().isOk())
 			  .andReturn().getResponse().getContentAsString();
-			  assertEquals("Only numbers are allowed in the userId attribute.", response);
+			  assertEquals("Only numbers are allowed in the userId parameter.", response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

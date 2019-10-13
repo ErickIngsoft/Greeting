@@ -1,7 +1,6 @@
 package com.eg.springboot.greeting.app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +20,14 @@ public class GreetingController {
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(value = "account", required = false) String account,
 			@RequestParam(value = "type", required = false) String type,
-			@RequestParam(value = "userId", defaultValue = "0", required = false) String userId, Model model) {
+			@RequestParam(value = "userId", defaultValue = "0", required = false) String userId) {
 		String returnMessage = "";
 		int id = 0;
 		try {
 			id = Integer.parseInt(userId);
 			returnMessage = greetingInstance.getGreeting(new Greeting(account, type, id));
 		} catch (NumberFormatException e) {
-			returnMessage = "Only numbers are allowed in the userId attribute.";
+			returnMessage = "Only numbers are allowed in the userId parameter.";
 		}
 		return returnMessage;
 	}
